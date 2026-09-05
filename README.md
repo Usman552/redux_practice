@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# redux_practice
 
-## Getting Started
+A mini e-commerce storefront built to practise Redux Toolkit inside a Next.js App Router project.
 
-First, run the development server:
+Product data comes from [Fake Store API](https://fakestoreapi.com). The home page renders two grids on purpose so the same data flow can be compared side by side: one fetched with local `useState`/`useEffect`, and one fetched through a Redux `createAsyncThunk`.
+
+## Stack
+
+- **Next.js 16** (App Router, Turbopack)
+- **React 19**
+- **Redux Toolkit** + **react-redux**
+- **Tailwind CSS v4** with **shadcn** components (built on **Base UI**)
+- **next-themes** for light/dark mode
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Other scripts:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build   # production build
+npm start       # serve the production build
+npm run lint    # eslint
+```
 
-## Learn More
+## Project layout
 
-To learn more about Next.js, take a look at the following resources:
+```
+app/
+  layout.tsx              root layout — ThemeProvider + ReduxProvider
+  page.tsx                home page
+components/
+  Navbar.tsx              nav, theme toggle, mobile menu
+  Hero.tsx                landing section
+  Product.tsx             product grid via useState/useEffect
+  ReduxProducts.tsx       product grid via Redux thunk
+  ProductCard.tsx         single product card
+  ReduxProvider.tsx       react-redux <Provider> (client component)
+  ThemeProvider.tsx       next-themes provider (client component)
+  ui/                     shadcn components
+store/
+  store.ts                configureStore, RootState, AppDispatch
+  slices/productsSlice.ts electronics thunk + loading/error state
+types/
+  products.ts             Product, ProductsState
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Redux flow
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`store/slices/productsSlice.ts` exposes `fetchCategoryData`, a thunk that loads
+`https://fakestoreapi.com/products/category/electronics`. The slice tracks
+`products`, `loading` and `error`, updated from the thunk's `pending` /
+`fulfilled` / `rejected` cases. `ReduxProducts` dispatches it on mount and reads
+the state with `useSelector`.
 
-## Deploy on Vercel
+## Notes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- External images are allowed through `images.remotePatterns` in
+  [`next.config.ts`](next.config.ts) — Next.js blocks unlisted hosts by design.
+- The shadcn `Button` here is built on Base UI, which uses a `render` prop
+  rather than Radix's `asChild`.
