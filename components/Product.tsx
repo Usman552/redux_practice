@@ -13,7 +13,7 @@ export function Products() {
     async function fetchProducts() {
       try {
         setLoading(true);
-        const response = await fetch("https://fakestoreapi.com/products");
+        const response = await fetch("https://fakestoreapi.com/products/category/men's clothing");
         if (!response.ok) throw new Error("Failed to fetch products");
 
         const data: Product[] = await response.json();
