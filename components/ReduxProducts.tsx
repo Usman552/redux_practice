@@ -1,16 +1,15 @@
 "use client";
 
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "@/store/store";
+import {useAppDispatch , useAppSelector} from "../store/hooks";
 import { fetchCategoryData } from "@/store/slices/productsSlice";
 import { ProductCard } from "@/components/ProductCard";
 
 export function ReduxProducts() {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
-  const { products, loading, error } = useSelector(
-    (state: RootState) => state.Products,
+  const { products, loading, error } = useAppSelector(
+    (state) => state.Products,
   );
 
   useEffect(() => {
@@ -18,7 +17,7 @@ export function ReduxProducts() {
   }, [dispatch]);
 
   if (loading) {
-    return <p>Loading electronics...</p>;
+    return <p>Loading Womens clothing...</p>;
   }
 
   if (error) {
@@ -27,7 +26,7 @@ export function ReduxProducts() {
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-16">
-      <h2 className="mb-8 text-3xl font-bold">women's clothing</h2>
+      <h2 className="mb-8 text-3xl font-bold"> womens clothing</h2>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {products.map((product) => (
