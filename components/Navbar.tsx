@@ -5,9 +5,13 @@ import { ThemeToggle } from "./ThemeToggle";
 import { ShoppingCart, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../components/ui/button";
+import { useAppSelector } from "@/store/hooks";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const cartItems = useAppSelector((state) => state.cart.items);
+
+  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
   return (
     <nav className="border-b bg-background">
       <div className="mx-auto flex max-w-7xl items-center justify-between p-4">
@@ -32,7 +36,15 @@ export function Navbar() {
             nativeButton={false}
             render={
               <Link href="/cart" aria-label="Shopping cart">
-                <ShoppingCart />
+                <div className="relative">
+                  <ShoppingCart />
+
+                  {cartCount > 0 && (
+                    <span className="absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-xs text-primary-foreground">
+                      {cartCount}
+                    </span>
+                  )}
+                </div>
               </Link>
             }
           />

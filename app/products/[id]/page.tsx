@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ShoppingCart, Star } from "lucide-react";
+import { ArrowLeft, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Product } from "../../../types/products";
 import { Navbar } from "@/components/Navbar";
+import { AddToCartButton } from "@/components/AddToCartButton";
+
 
 interface ProductPageProps {
   params: Promise<{
@@ -27,12 +29,17 @@ export default async function ProductPage({ params }: ProductPageProps) {
       <Navbar />
       <main className="mx-auto max-w-7xl px-4 py-10 sm:py-16">
         {/* Back Button */}
-        <Button variant="ghost" asChild className="mb-8">
-          <Link href="/products">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Products
-          </Link>
-        </Button>
+        <Button
+          variant="ghost"
+          className="mb-8"
+          nativeButton={false}
+          render={
+            <Link href="/products">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Products
+            </Link>
+          }
+        />
 
         {/* Product Details */}
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
@@ -84,14 +91,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
             {/* Add to Cart */}
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button size="lg" className="flex-1">
-                <ShoppingCart className="mr-2 h-5 w-5" />
-                Add to Cart
-              </Button>
+              <AddToCartButton product={product} className="flex-1" />
 
-              <Button size="lg" variant="outline" asChild>
-                <Link href="/products">Continue Shopping</Link>
-              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                nativeButton={false}
+                render={<Link href="/products">Continue Shopping</Link>}
+              />
             </div>
           </div>
         </div>
