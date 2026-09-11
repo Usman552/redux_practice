@@ -14,7 +14,7 @@ export const fetchCategoryData = createAsyncThunk(
       "https://fakestoreapi.com/products/category/women's clothing",
     );
     if (!response.ok) {
-      throw new Error(`Failed to fetch Electronics (${response.status})`);
+      throw new Error(`Failed to fetch Womens clothing (${response.status})`);
     }
     const data: Product[] = await response.json();
     return data;
