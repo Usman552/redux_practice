@@ -6,6 +6,7 @@ import { ShoppingCart, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../components/ui/button";
 import { useAppSelector } from "@/store/hooks";
+import LoginButton from "./LoginButton";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -49,6 +50,7 @@ export function Navbar() {
             }
           />
 
+          <LoginButton />
           <ThemeToggle />
         </div>
         <div className="flex items-center gap-2 md:hidden">
