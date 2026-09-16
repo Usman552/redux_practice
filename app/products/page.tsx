@@ -1,6 +1,6 @@
 import { Navbar } from "@/components/Navbar";
 import { Products } from "@/components/Product";
-import { ReduxProducts } from "@/components/ReduxProducts";
+// import { ReduxProducts } from "@/components/ReduxProducts";
 
 export default function ProductsPage() {
   return (
@@ -8,7 +8,7 @@ export default function ProductsPage() {
       <Navbar />
       <main>
         <Products />
-        <ReduxProducts />
+        {/* <ReduxProducts /> */}
       </main>
     </>
   );
