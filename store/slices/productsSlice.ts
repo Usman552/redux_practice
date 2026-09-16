@@ -7,11 +7,11 @@ const initialState: ProductsState = {
   error: null,
 };
 
-export const fetchCategoryData = createAsyncThunk(
+export const fetchProducts = createAsyncThunk(
   "products/fetchElectronics",
   async () => {
     const response = await fetch(
-      "https://fakestoreapi.com/products/category/women's clothing",
+      "https://fakestoreapi.com/products/",
     );
     if (!response.ok) {
       throw new Error(`Failed to fetch Womens clothing (${response.status})`);
@@ -27,15 +27,15 @@ const ProductsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchCategoryData.pending, (state) => {
+      .addCase(fetchProducts.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchCategoryData.fulfilled, (state, action) => {
+      .addCase(fetchProducts.fulfilled, (state, action) => {
         state.loading = false;
         state.products = action.payload;
       })
-      .addCase(fetchCategoryData.rejected, (state, action) => {
+      .addCase(fetchProducts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message ?? "Failed to load electronics";
       });
