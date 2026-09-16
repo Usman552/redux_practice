@@ -5,6 +5,8 @@ import keycloak from "@/lib/keycloak";
 
 type KeycloakContextType = {
   isAuthenticated: boolean;
+  /** false until Keycloak has answered (or failed) */
+  ready: boolean;
   login: () => void;
   logout: () => void;
 };
@@ -43,10 +45,15 @@ export default function KeycloakProvider({
         pkceMethod: "S256",
       })
       .then((authenticated) => {
-        console.log("Keycloak authenticated:", authenticated);
-        console.log("Keycloak object:", keycloak);
-
         setIsAuthenticated(authenticated);
+      })
+      .catch((error) => {
+        // Keycloak unreachable or misconfigured. Stay signed out rather than
+        // leaving the app stuck — the store still works without auth.
+        console.error("Keycloak init failed:", error);
+        setIsAuthenticated(false);
+      })
+      .finally(() => {
         setReady(true);
       });
   }, []);
@@ -61,14 +68,14 @@ export default function KeycloakProvider({
     });
   };
 
-  if (!ready) {
-    return null;
-  }
-
+  // Render children immediately. Auth state arrives later; consumers that care
+  // can read `ready`. Blocking here blanks the entire app — including every
+  // page that needs no auth at all — whenever Keycloak is slow or down.
   return (
     <KeycloakContext.Provider
       value={{
         isAuthenticated,
+        ready,
         login,
         logout,
       }}
