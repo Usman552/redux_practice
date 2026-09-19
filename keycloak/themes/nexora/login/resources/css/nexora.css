@@ -1,0 +1,252 @@
+/* Nexora login theme
+ *
+ * Mirrors the storefront's design tokens from app/globals.css so the login
+ * page and the site look like one product. Token names and oklch values are
+ * copied verbatim from there; update both together if the palette changes.
+ *
+ * Loaded after keycloak.v2's css/styles.css, so these rules win.
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap");
+
+/* ---------- Tokens (from app/globals.css :root) ---------- */
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --border: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+
+  --radius: 0.625rem;
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+
+  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+}
+
+/* Dark values mirror the `.dark` block in app/globals.css.
+   Keycloak puts .pf-v5-theme-dark on the page when dark mode is active. */
+.pf-v5-theme-dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --border: oklch(1 0 0 / 10%);
+  --ring: oklch(0.556 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+}
+
+/* ---------- Page ---------- */
+
+#keycloak-bg,
+#keycloak-bg .pf-v5-c-login {
+  background: var(--muted);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+}
+
+.pf-v5-theme-dark #keycloak-bg,
+.pf-v5-theme-dark #keycloak-bg .pf-v5-c-login {
+  background: var(--background);
+}
+
+/* ---------- Brand — matches the navbar's "NEXORA" ---------- */
+
+#kc-header-wrapper {
+  font-family: var(--font-sans);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--foreground);
+  text-transform: none;
+  padding-bottom: 1.25rem;
+}
+
+/* ---------- Card — the site's `rounded-3xl border bg-card` ---------- */
+
+.pf-v5-c-login__main {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-3xl);
+  box-shadow: none;
+  overflow: hidden;
+}
+
+.pf-v5-c-login__main-header {
+  padding: 2rem 2rem 0;
+}
+
+.pf-v5-c-login__main-body {
+  padding: 1.5rem 2rem 2rem;
+}
+
+#kc-page-title {
+  font-family: var(--font-sans);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--foreground);
+}
+
+/* ---------- Labels — the site's eyebrow style ---------- */
+
+.pf-v5-c-form__label-text {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted-foreground);
+}
+
+/* ---------- Inputs ---------- */
+
+#kc-form-login .pf-v5-c-form-control,
+#kc-register-form .pf-v5-c-form-control {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+#kc-form-login .pf-v5-c-form-control::after,
+#kc-register-form .pf-v5-c-form-control::after {
+  border: none;
+}
+
+#kc-form-login .pf-v5-c-form-control:focus-within,
+#kc-register-form .pf-v5-c-form-control:focus-within {
+  border-color: var(--ring);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring), transparent 70%);
+}
+
+#kc-form-login input,
+#kc-register-form input {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  color: var(--foreground);
+  padding: 0.6rem 0.8rem;
+  background: transparent;
+}
+
+/* ---------- Submit — the site's Button: bg-primary, hover:bg-primary/80 ---------- */
+
+#kc-form-login .pf-v5-c-button.pf-m-primary,
+#kc-register-form .pf-v5-c-button.pf-m-primary {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  padding-block: 0.6rem;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+#kc-form-login .pf-v5-c-button.pf-m-primary:hover,
+#kc-register-form .pf-v5-c-button.pf-m-primary:hover {
+  background: color-mix(in oklch, var(--primary), transparent 20%);
+}
+
+#kc-form-login .pf-v5-c-button.pf-m-primary:active,
+#kc-register-form .pf-v5-c-button.pf-m-primary:active {
+  transform: translateY(1px);
+}
+
+/* Show/hide password toggle sits next to the input */
+#kc-form-login .pf-v5-c-button.pf-m-control,
+#kc-register-form .pf-v5-c-button.pf-m-control {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--muted-foreground);
+}
+
+/* ---------- Links ---------- */
+
+.pf-v5-c-login__main a,
+.pf-v5-c-login__main .pf-v5-c-button.pf-m-link {
+  color: var(--foreground);
+  font-weight: 500;
+  text-underline-offset: 4px;
+}
+
+.pf-v5-c-login__main a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Errors ---------- */
+
+.pf-v5-c-alert.pf-m-inline {
+  border-radius: var(--radius-md);
+}
+
+.kc-feedback-text {
+  color: var(--destructive);
+  font-size: 0.8125rem;
+}
+
+/* ---------- Signup page ----------
+ * Six fields make a tall card, so widen it and pair the name inputs.
+ * The form here is #kc-register-form, not #kc-form-login.
+ */
+
+body:has(#kc-register-form) .pf-v5-c-login__container {
+  max-width: 34rem;
+}
+
+#kc-register-form .pf-v5-c-form__group {
+  margin-bottom: 0.25rem;
+}
+
+/* First name + Last name side by side on wider screens */
+@media (min-width: 40rem) {
+  #kc-register-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1rem;
+  }
+
+  /* Every group spans both columns... */
+  #kc-register-form > .pf-v5-c-form__group {
+    grid-column: 1 / -1;
+  }
+
+  /* ...except the two name fields, which sit in the same row. */
+  #kc-register-form > .pf-v5-c-form__group:has(#firstName) {
+    grid-column: 1 / 2;
+  }
+
+  #kc-register-form > .pf-v5-c-form__group:has(#lastName) {
+    grid-column: 2 / 3;
+  }
+
+  #kc-register-form > #kc-form-buttons,
+  #kc-register-form > #kc-form-options {
+    grid-column: 1 / -1;
+  }
+}
+
+/* "Already have an account? Sign in" under the button */
+#kc-form-options {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+/* Required-field asterisk in the site's muted tone */
+.pf-v5-c-form__label-required {
+  color: var(--muted-foreground);
+  margin-inline-start: 0.25rem;
+}
