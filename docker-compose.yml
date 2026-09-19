@@ -3,8 +3,18 @@ services:
     image: quay.io/keycloak/keycloak:latest
     container_name: mini-ecommerce-keycloak
     command: start-dev
+
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+
     ports:
       - "8080:8080"
+
+    volumes:
+      # Realms, clients and users live here. Without this volume they are
+      # stored inside the container and `docker compose down` destroys them.
+      - keycloak-data:/opt/keycloak/data
+
+volumes:
+  keycloak-data:
