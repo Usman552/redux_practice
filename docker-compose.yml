@@ -2,7 +2,13 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:latest
     container_name: mini-ecommerce-keycloak
-    command: start-dev
+
+    # Theme caching off so edits show on refresh instead of needing a restart.
+    command: >
+      start-dev
+      --spi-theme-cache-themes=false
+      --spi-theme-cache-templates=false
+      --spi-theme-static-max-age=-1
 
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
@@ -12,6 +18,7 @@ services:
       - "8080:8080"
 
     volumes:
+      - ./keycloak/themes:/opt/keycloak/themes
       # Realms, clients and users live here. Without this volume they are
       # stored inside the container and `docker compose down` destroys them.
       - keycloak-data:/opt/keycloak/data
