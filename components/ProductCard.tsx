@@ -33,10 +33,7 @@ export function ProductCard({ product }: { product: Product }) {
       </Link>
 
       <div className="p-5 pt-3">
-        <Button
-          className="w-full"
-          onClick={() => dispatch(addToCart(product))}
-        >
+        <Button className="w-full" onClick={() => dispatch(addToCart(product))}>
           Add to Cart
         </Button>
       </div>
