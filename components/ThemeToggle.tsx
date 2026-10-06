@@ -10,6 +10,9 @@ export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // Intentional: the theme is unknown on the server, so this flips the
+    // icon to the real value only after hydration to avoid a mismatch.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
