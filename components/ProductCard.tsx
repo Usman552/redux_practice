@@ -8,7 +8,14 @@ import { useAppDispatch } from "../store/hooks";
 import { addToCart } from "../store/slices/cartSlice";
 import { toast } from "sonner";
 
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({
+  product,
+  showDiscountBadge = false,
+}: {
+  product: Product;
+  /** Shows a "-X% OFF" badge when the product has a meaningful discount. */
+  showDiscountBadge?: boolean;
+}) {
   const dispatch = useAppDispatch();
 
   const handleAddToCart = () => {
@@ -16,10 +23,19 @@ export function ProductCard({ product }: { product: Product }) {
     toast.success("Added to cart", { description: product.title });
   };
 
+  const discount = Math.round(product.discountPercentage ?? 0);
+  const hasDiscount = showDiscountBadge && discount > 0;
+
   return (
     <div className="group flex h-full flex-col overflow-hidden rounded-xl border bg-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
       <Link href={`/products/${product.id}`} className="flex-1">
         <div className="relative aspect-square overflow-hidden">
+          {hasDiscount && (
+            <span className="absolute left-3 top-3 z-10 rounded-full bg-destructive px-2.5 py-1 text-xs font-semibold text-destructive-foreground">
+              -{discount}% OFF
+            </span>
+          )}
+
           <Image
             src={product.image}
             alt={product.title}

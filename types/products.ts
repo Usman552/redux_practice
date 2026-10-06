@@ -9,6 +9,7 @@ export interface Product {
   // Kept optional so nothing that already consumes Product breaks.
   rating?: number;
   stock?: number;
+  discountPercentage?: number;
 }
 
 export interface Category {

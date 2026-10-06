@@ -26,6 +26,7 @@ interface DummyJsonProduct {
   rating: number;
   stock: number;
   thumbnail: string;
+  discountPercentage: number;
 }
 
 interface DummyJsonProductListResponse {
@@ -51,6 +52,7 @@ function mapProduct(raw: DummyJsonProduct): Product {
     image: raw.thumbnail,
     rating: raw.rating,
     stock: raw.stock,
+    discountPercentage: raw.discountPercentage,
   };
 }
 
@@ -87,6 +89,14 @@ export async function getProductById(id: string | number): Promise<Product> {
     `/products/${encodeURIComponent(String(id))}`,
   );
   return mapProduct(data);
+}
+
+/** Real discounts, highest first - not made-up "deal" badges. */
+export async function getDeals(limit = 10): Promise<Product[]> {
+  const data = await fetchJson<DummyJsonProductListResponse>(
+    `/products?limit=${limit}&sortBy=discountPercentage&order=desc`,
+  );
+  return data.products.map(mapProduct);
 }
 
 export async function getCategories(): Promise<Category[]> {
