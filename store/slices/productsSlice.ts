@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import type { Product, ProductsState } from "../../types/products";
+import type { ProductsState } from "../../types/products";
+import { getProducts } from "@/lib/api/products";
 
 const initialState: ProductsState = {
   products: [],
@@ -8,17 +9,8 @@ const initialState: ProductsState = {
 };
 
 export const fetchProducts = createAsyncThunk(
-  "products/fetchElectronics",
-  async () => {
-    const response = await fetch(
-      "https://fakestoreapi.com/products/",
-    );
-    if (!response.ok) {
-      throw new Error(`Failed to fetch Womens clothing (${response.status})`);
-    }
-    const data: Product[] = await response.json();
-    return data;
-  },
+  "products/fetchAll",
+  async () => getProducts(),
 );
 
 const ProductsSlice = createSlice({
@@ -37,7 +29,7 @@ const ProductsSlice = createSlice({
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message ?? "Failed to load electronics";
+        state.error = action.error.message ?? "Failed to load products";
       });
   },
 });

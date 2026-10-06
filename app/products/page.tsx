@@ -1,15 +1,14 @@
-import { Navbar } from "@/components/Navbar";
+import type { Metadata } from "next";
 import { Products } from "@/components/Product";
-// import { ReduxProducts } from "@/components/ReduxProducts";
+
+export const metadata: Metadata = {
+  title: "Products",
+};
 
 export default function ProductsPage() {
   return (
-    <>
-      <Navbar />
-      <main>
-        <Products />
-        {/* <ReduxProducts /> */}
-      </main>
-    </>
+    <main>
+      <Products />
+    </main>
   );
 }

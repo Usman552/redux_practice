@@ -53,7 +53,7 @@ export function Navbar() {
         <div className="hidden flex-1 items-center justify-end gap-2 md:flex">
           {/* Search */}
           {isSearchOpen ? (
-            <div className="relative">
+            <div className="animate-in fade-in slide-in-from-right-4 relative duration-300">
               <Search
                 size={18}
                 className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
@@ -63,7 +63,8 @@ export function Navbar() {
                 type="search"
                 placeholder="Search products..."
                 autoFocus
-                className="h-9 w-48 rounded-md border bg-background pl-9 pr-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+                onBlur={() => setIsSearchOpen(false)}
+                className="h-9 w-48 rounded-md border bg-background pl-9 pr-3 text-sm outline-none transition-shadow focus:ring-2 focus:ring-ring"
               />
             </div>
           ) : (
@@ -93,7 +94,10 @@ export function Navbar() {
                   <ShoppingCart />
 
                   {cartCount > 0 && (
-                    <span className="absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-xs text-primary-foreground">
+                    <span
+                      key={cartCount}
+                      className="animate-in zoom-in absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-xs text-primary-foreground duration-300"
+                    >
                       {cartCount}
                     </span>
                   )}
@@ -126,7 +130,7 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="border-t px-4 py-4 md:hidden">
+        <div className="animate-in fade-in slide-in-from-top-2 border-t px-4 py-4 duration-300 md:hidden">
           <div className="flex flex-col gap-4">
             <Link
               href="/"

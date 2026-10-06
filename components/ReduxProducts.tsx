@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { fetchProducts } from "@/store/slices/productsSlice";
 import { ProductCard } from "@/components/ProductCard";
+import { ProductGridSkeleton } from "@/components/ProductCardSkeleton";
+import { ProductsError } from "@/components/ProductsError";
 
 export function ReduxProducts() {
   const dispatch = useAppDispatch();
@@ -17,17 +19,25 @@ export function ReduxProducts() {
   }, [dispatch]);
 
   if (loading) {
-    return <p>Loading products...</p>;
+    return <ProductGridSkeleton />;
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return (
+      <ProductsError message={error} onRetry={() => dispatch(fetchProducts())} />
+    );
   }
 
   return (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      {products.slice(0, 4).map((product) => (
-        <ProductCard key={product.id} product={product} />
+      {products.slice(0, 4).map((product, index) => (
+        <div
+          key={product.id}
+          style={{ animationDelay: `${index * 60}ms` }}
+          className="animate-in fade-in slide-in-from-bottom-4 fill-mode-backwards duration-500 ease-out"
+        >
+          <ProductCard product={product} />
+        </div>
       ))}
     </div>
   );

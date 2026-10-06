@@ -5,7 +5,18 @@ export interface Product {
   description: string;
   category: string;
   image: string;
+  // Optional: populated when the data source provides them (DummyJSON does).
+  // Kept optional so nothing that already consumes Product breaks.
+  rating?: number;
+  stock?: number;
+  discountPercentage?: number;
 }
+
+export interface Category {
+  slug: string;
+  name: string;
+}
+
 export interface ProductsState {
   products: Product[];
   loading: boolean;

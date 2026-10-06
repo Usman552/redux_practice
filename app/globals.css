@@ -128,3 +128,15 @@
     @apply font-sans;
   }
 }
+
+@layer utilities {
+  /* Used by the category/product sliders - native scroll, no JS carousel
+     library, just hidden scrollbars since the arrow buttons drive scrolling. */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
