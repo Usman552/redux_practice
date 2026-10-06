@@ -1,4 +1,6 @@
-'use client'
+"use client";
+
+import Link from "next/link";
 
 export default function OrderSuccessPage() {
   return (
@@ -11,12 +13,12 @@ export default function OrderSuccessPage() {
         </p>
 
         <div className="mt-8">
-          <a
+          <Link
             href="/products"
             className="inline-block rounded-md bg-primary px-6 py-3 text-primary-foreground"
           >
             Continue Shopping
-          </a>
+          </Link>
         </div>
       </div>
     </main>
