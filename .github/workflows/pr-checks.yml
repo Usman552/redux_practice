@@ -1,0 +1,64 @@
+name: PR Checks
+
+# Runs automatically whenever a PR is opened, or new commits are pushed to
+# an open PR, targeting main.
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write # needed so the coverage step can post/update a PR comment
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run lint
+        run: npm run lint
+
+  test:
+    name: Unit Tests & Coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Runs only the "unit" test project (plain Vitest + jsdom). The
+      # "storybook" project needs a Playwright browser installed, which
+      # this workflow doesn't set up - that's a separate concern from
+      # unit test coverage.
+      - name: Run unit tests with coverage
+        run: npx vitest run --project=unit
+
+      - name: Post coverage report as PR comment
+        if: always() # post the report even if some tests failed
+        uses: davelosert/vitest-coverage-report-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          json-summary-path: ./coverage/coverage-summary.json
+          json-final-path: ./coverage/coverage-final.json
